@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matn Tarjimon</title>
+</head>
+<body>
+    <h2>Matn Tarjimon</h2>
+    <textarea id="inputText" rows="4" cols="50" placeholder="Matnni kiriting..."></textarea>
+    <br>
+    <button onclick="translateText('en', 'uz')">Inglizchadan O‘zbekchaga</button>
+    <button onclick="translateText('uz', 'en')">O‘zbekchadan Inglizchaga</button>
+    <br>
+    <h3>Natija:</h3>
+    <p id="outputText"></p>
+
+    <script>
+        async function translateText(sourceLang, targetLang) {
+            let text = document.getElementById("inputText").value;
+            let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+            
+            try {
+                let response = await fetch(url);
+                let result = await response.json();
+                document.getElementById("outputText").innerText = result[0].map(t => t[0]).join("");
+            } catch (error) {
+                document.getElementById("outputText").innerText = "Tarjima amalga oshirilmadi!";
+            }
+        }
+    </script>
+</body>
+</html>
